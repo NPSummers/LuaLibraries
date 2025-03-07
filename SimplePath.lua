@@ -54,17 +54,7 @@ visualWaypoint.Anchored = true
 visualWaypoint.CanCollide = false
 visualWaypoint.Material = Enum.Material.Neon
 visualWaypoint.Shape = Enum.PartType.Ball
-local c = Instance.new("Highlight", highlights);
-c.Adornee = visualWaypoint;
-c.FillColor = Color3.fromRGB(128, 0, 128)
-c.OutlineColor = Color3.fromRGB(128, 0, 128)
-c.FillTransparency = 0.5
-c.OutlineTransparency = 0.3
-c.Adornee.Changed:Connect(function()
-  if (not c.Adornee or not c.Adornee.Parent) then
-    c:Destroy();
-  end
-end);
+
 
 --[[ PRIVATE FUNCTIONS ]]--
 local function declareError(self, errorType)
@@ -84,6 +74,17 @@ local function createVisualWaypoints(waypoints)
 			or (waypoint.Action == Enum.PathWaypointAction.Jump and Color3.fromRGB(255, 0, 0))
 			or Color3.fromRGB(255, 139, 0)
 		table.insert(visualWaypoints, visualWaypointClone)
+		local c = Instance.new("Highlight", highlights);
+		c.Adornee = visualWaypointClone;
+		c.FillColor = Color3.fromRGB(128, 0, 128)
+		c.OutlineColor = Color3.fromRGB(128, 0, 128)
+		c.FillTransparency = 0.5
+		c.OutlineTransparency = 0.3
+		c.Adornee.Changed:Connect(function()
+		  if (not c.Adornee or not c.Adornee.Parent) then
+		    c:Destroy();
+		  end
+		end);
 	end
 	return visualWaypoints
 end
