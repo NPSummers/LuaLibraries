@@ -50,7 +50,7 @@ end
 local highlights = Instance.new('Folder', game:GetService("CoreGui"));   
 local visualWaypoint = Instance.new("Part")
 visualWaypoint.Size = Vector3.new(0.3, 0.3, 0.3)
-visualWaypoint.Transparency = 1;
+visualWaypoint.Transparency = 0.98;
 visualWaypoint.Anchored = true
 visualWaypoint.CanCollide = false
 visualWaypoint.Material = Enum.Material.Neon
