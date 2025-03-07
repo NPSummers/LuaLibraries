@@ -50,6 +50,7 @@ end
 local highlights = Instance.new('Folder', game:GetService("CoreGui"));   
 local visualWaypoint = Instance.new("Part")
 visualWaypoint.Size = Vector3.new(0.3, 0.3, 0.3)
+visualWaypoint.Transparency = 1;
 visualWaypoint.Anchored = true
 visualWaypoint.CanCollide = false
 visualWaypoint.Material = Enum.Material.Neon
@@ -77,7 +78,10 @@ local function createVisualWaypoints(waypoints)
 		local c = Instance.new("Highlight", highlights);
 		c.Adornee = visualWaypointClone;
 		c.FillColor = Color3.fromRGB(128, 0, 128)
-		c.OutlineColor = Color3.fromRGB(128, 0, 128)
+		c.OutlineColor = 
+			(waypoint == waypoints[#waypoints] and Color3.fromRGB(0, 255, 0))
+			or (waypoint.Action == Enum.PathWaypointAction.Jump and Color3.fromRGB(255, 0, 0))
+			or Color3.fromRGB(255, 139, 0)
 		c.FillTransparency = 0.5
 		c.OutlineTransparency = 0.3
 		c.Adornee.Changed:Connect(function()
@@ -359,5 +363,31 @@ function Path:Run(target)
 	end
 	return true
 end
+
+-- Add this function to update the agent dynamically
+function Path:UpdateAgent(newAgent)
+    if not (newAgent and newAgent:IsA("Model") and newAgent.PrimaryPart) then
+        output(error, "New agent must be a valid Model Instance with a set PrimaryPart.")
+        return false
+    end
+    
+    -- Update agent references
+    self._agent = newAgent
+    self._humanoid = newAgent:FindFirstChildOfClass("Humanoid")
+    
+    -- Reset path and movement connection
+    if self._moveConnection then
+        self._moveConnection:Disconnect()
+        self._moveConnection = nil
+    end
+    
+    -- Recreate the path for the new agent
+    self._path = PathfindingService:CreatePath()
+    self._status = Path.StatusType.Idle
+    
+    output(print, "Agent successfully updated.")
+    return true
+end
+
 
 return Path
