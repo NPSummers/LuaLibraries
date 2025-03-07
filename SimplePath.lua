@@ -56,10 +56,10 @@ visualWaypoint.Material = Enum.Material.Neon
 visualWaypoint.Shape = Enum.PartType.Ball
 local c = Instance.new("Highlight", highlights);
 c.Adornee = visualWaypoint;
-c.FillColor = settings.fillcolor;
-c.OutlineColor = settings.outlinecolor;
-c.FillTransparency = settings.filltransparency;
-c.OutlineTransparency = settings.outlinetransparency;
+c.FillColor = Color3.fromRGB(128, 0, 128)
+c.OutlineColor = Color3.fromRGB(128, 0, 128)
+c.FillTransparency = 0.5
+c.OutlineTransparency = 0.3
 c.Adornee.Changed:Connect(function()
   if (not c.Adornee or not c.Adornee.Parent) then
     c:Destroy();
